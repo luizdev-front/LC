@@ -1,14 +1,7 @@
-// =============================================
 // LC COMMERCE - CONEXÃO COM O SUPABASE
-// =============================================
-// 1) Crie um projeto gratuito em https://supabase.com
-// 2) Vá em Project Settings > API
-// 3) Cole abaixo a Project URL e a chave publicável/anon.
-//
-// IMPORTANTE: use SOMENTE a chave pública (publishable/anon).
-// NUNCA coloque a service_role key no navegador.
+// Nunca coloque a chave service_role neste arquivo.
 
 window.LC_CONFIG = {
-  SUPABASE_URL: "COLE_AQUI_SUA_SUPABASE_URL",
-  SUPABASE_ANON_KEY: "COLE_AQUI_SUA_CHAVE_PUBLICA"
+  SUPABASE_URL: "https://xsjyasqzfntlqqjachuf.supabase.co",
+  SUPABASE_ANON_KEY: "sb_publishable_uhi169lvK8Y5MJ9TILUlGw_dWNmYbKE"
 };
