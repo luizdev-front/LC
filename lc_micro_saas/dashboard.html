@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LC | Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard-page">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/logo-lc.png" alt="LC">
+      </div>
+
+      <nav class="side-nav">
+        <button class="nav-item active" data-section="overview"><span>⌂</span> Visão geral</button>
+        <button class="nav-item" data-section="products"><span>▦</span> Produtos</button>
+        <button class="nav-item" data-section="orders"><span>≡</span> Pedidos</button>
+        <button class="nav-item" data-section="settings"><span>⚙</span> Minha loja</button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <button id="openStoreBtn" class="btn btn-outline btn-block">Ver loja pública</button>
+        <button id="logoutBtn" class="logout-btn">Sair da conta</button>
+      </div>
+    </aside>
+
+    <main class="dashboard-main">
+      <header class="topbar">
+        <button id="menuBtn" class="icon-btn mobile-menu">☰</button>
+        <div>
+          <p class="overline">LC Commerce</p>
+          <h1 id="topbarTitle">Visão geral</h1>
+        </div>
+        <div class="user-chip">
+          <div class="avatar" id="userAvatar">LC</div>
+          <div>
+            <strong id="userName">Lojista</strong>
+            <small id="userEmail">...</small>
+          </div>
+        </div>
+      </header>
+
+      <section class="dashboard-content">
+        <div id="configWarning" class="warning-banner" hidden>
+          O Supabase ainda não foi configurado. Abra <strong>js/config.js</strong> e informe a URL e a chave publicável do projeto.
+        </div>
+
+        <section class="app-section active" id="section-overview">
+          <div class="section-heading">
+            <div>
+              <p class="overline">Resumo</p>
+              <h2>Olá, <span id="welcomeName">lojista</span>.</h2>
+              <p class="muted">Veja o que está acontecendo na sua loja.</p>
+            </div>
+            <button class="btn btn-primary" id="quickAddProduct">+ Novo produto</button>
+          </div>
+
+          <div class="stat-grid">
+            <article class="stat-card">
+              <span class="stat-icon">▦</span>
+              <small>Produtos</small>
+              <strong id="statProducts">0</strong>
+            </article>
+            <article class="stat-card">
+              <span class="stat-icon">≡</span>
+              <small>Pedidos</small>
+              <strong id="statOrders">0</strong>
+            </article>
+            <article class="stat-card">
+              <span class="stat-icon">R$</span>
+              <small>Vendas registradas</small>
+              <strong id="statRevenue">R$ 0,00</strong>
+            </article>
+            <article class="stat-card stat-card--blue">
+              <span class="stat-icon">↗</span>
+              <small>Pedidos pendentes</small>
+              <strong id="statPending">0</strong>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Pedidos recentes</h3>
+                  <p class="muted">Últimos pedidos da loja</p>
+                </div>
+                <button class="text-btn" data-go="orders">Ver todos</button>
+              </div>
+              <div id="recentOrders" class="list-stack"></div>
+            </article>
+
+            <article class="panel store-preview-card">
+              <p class="overline">Sua vitrine</p>
+              <h3 id="previewStoreName">Sua loja</h3>
+              <p class="muted">Compartilhe o link público com seus clientes.</p>
+              <div class="public-url-box">
+                <span id="publicStoreUrl">...</span>
+                <button id="copyStoreLink" class="icon-btn">⧉</button>
+              </div>
+              <button class="btn btn-dark btn-block" id="previewStoreBtn">Abrir loja pública</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="app-section" id="section-products">
+          <div class="section-heading">
+            <div>
+              <p class="overline">Catálogo</p>
+              <h2>Produtos</h2>
+              <p class="muted">Cadastre e mantenha seu catálogo atualizado.</p>
+            </div>
+            <button class="btn btn-primary" id="addProductBtn">+ Novo produto</button>
+          </div>
+
+          <div class="toolbar">
+            <input id="productSearch" class="search-input" type="search" placeholder="Buscar produto...">
+            <span id="productCountLabel" class="muted">0 produtos</span>
+          </div>
+
+          <div id="productsAdminGrid" class="admin-product-grid"></div>
+        </section>
+
+        <section class="app-section" id="section-orders">
+          <div class="section-heading">
+            <div>
+              <p class="overline">Vendas</p>
+              <h2>Pedidos</h2>
+              <p class="muted">Acompanhe os pedidos realizados na sua loja.</p>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <select id="orderStatusFilter" class="select-input">
+              <option value="all">Todos os status</option>
+              <option value="pending">Pendente</option>
+              <option value="confirmed">Confirmado</option>
+              <option value="shipped">Enviado</option>
+              <option value="completed">Concluído</option>
+              <option value="cancelled">Cancelado</option>
+            </select>
+          </div>
+
+          <div id="ordersList" class="order-admin-list"></div>
+        </section>
+
+        <section class="app-section" id="section-settings">
+          <div class="section-heading">
+            <div>
+              <p class="overline">Configurações</p>
+              <h2>Minha loja</h2>
+              <p class="muted">Personalize os dados públicos da sua vitrine.</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <form id="storeSettingsForm" class="panel form-stack">
+              <label>
+                <span>Nome da loja</span>
+                <input id="settingsStoreName" type="text" required>
+              </label>
+
+              <label>
+                <span>Endereço da loja (slug)</span>
+                <div class="slug-input">
+                  <span>/loja/</span>
+                  <input id="settingsSlug" type="text" pattern="[a-z0-9-]+" required>
+                </div>
+              </label>
+
+              <label>
+                <span>WhatsApp</span>
+                <input id="settingsWhatsapp" type="tel" required>
+              </label>
+
+              <label>
+                <span>Logo da loja (opcional)</span>
+                <input id="storeLogoInput" type="file" accept="image/png,image/jpeg,image/webp">
+              </label>
+
+              <div id="storeLogoPreview" class="logo-preview"></div>
+
+              <button class="btn btn-primary" type="submit">Salvar alterações</button>
+            </form>
+
+            <article class="panel">
+              <p class="overline">Link público</p>
+              <h3>Compartilhe sua loja</h3>
+              <p class="muted">Seu catálogo poderá ser acessado por este endereço.</p>
+              <div class="public-url-box">
+                <span id="settingsPublicUrl">...</span>
+                <button id="settingsCopyLink" class="icon-btn">⧉</button>
+              </div>
+              <button id="settingsOpenStore" class="btn btn-dark btn-block">Visualizar loja</button>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div id="modalBackdrop" class="modal-backdrop" hidden></div>
+
+  <div id="productModal" class="modal-card" hidden>
+    <div class="modal-head">
+      <div>
+        <p class="overline">Catálogo</p>
+        <h3 id="productModalTitle">Novo produto</h3>
+      </div>
+      <button id="closeProductModal" class="icon-btn">✕</button>
+    </div>
+
+    <form id="productForm" class="form-stack">
+      <input id="productId" type="hidden">
+
+      <div class="form-row">
+        <label>
+          <span>Nome</span>
+          <input id="productName" type="text" required>
+        </label>
+        <label>
+          <span>Categoria</span>
+          <input id="productCategory" type="text" placeholder="Perfumes" required>
+        </label>
+      </div>
+
+      <label>
+        <span>Descrição</span>
+        <textarea id="productDescription" rows="4" placeholder="Descrição do produto"></textarea>
+      </label>
+
+      <div class="form-row">
+        <label>
+          <span>Preço</span>
+          <input id="productPrice" type="number" min="0" step="0.01" required>
+        </label>
+        <label>
+          <span>Estoque</span>
+          <input id="productStock" type="number" min="0" step="1" value="0" required>
+        </label>
+      </div>
+
+      <label>
+        <span>Imagem</span>
+        <input id="productImage" type="file" accept="image/png,image/jpeg,image/webp">
+      </label>
+
+      <label class="checkbox-row">
+        <input id="productActive" type="checkbox" checked>
+        <span>Produto visível na loja</span>
+      </label>
+
+      <div id="productFormMessage" class="form-message" hidden></div>
+
+      <div class="modal-actions">
+        <button id="cancelProductBtn" class="btn btn-outline" type="button">Cancelar</button>
+        <button class="btn btn-primary" type="submit">Salvar produto</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

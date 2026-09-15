@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LC | Loja</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="store-page">
+  <header class="store-header">
+    <div class="store-container store-header__inner">
+      <a class="store-brand" href="#">
+        <div id="storeLogoWrap" class="store-logo-wrap">
+          <span id="storeLogoFallback">LC</span>
+        </div>
+        <div>
+          <strong id="publicStoreName">Carregando...</strong>
+          <small>Loja online</small>
+        </div>
+      </a>
+
+      <div class="store-search">
+        <input id="publicSearch" type="search" placeholder="Buscar produtos...">
+      </div>
+
+      <button id="cartBtn" class="store-cart-btn">
+        Carrinho
+        <span id="cartBadge">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="store-container store-hero">
+      <div>
+        <span class="eyebrow">Compra simples e rápida</span>
+        <h1>Escolha. Adicione. <span>Peça pelo WhatsApp.</span></h1>
+        <p>Explore o catálogo e envie seu pedido diretamente para a loja.</p>
+        <button id="heroShopBtn" class="btn btn-primary">Ver produtos</button>
+      </div>
+      <div class="hero-orb">
+        <div class="orb-ring"></div>
+        <div class="orb-core">LC</div>
+      </div>
+    </section>
+
+    <section id="productsSection" class="store-container store-products-section">
+      <div class="store-section-head">
+        <div>
+          <p class="overline">Catálogo</p>
+          <h2>Produtos</h2>
+        </div>
+        <div id="publicFilters" class="public-filters"></div>
+      </div>
+
+      <div id="publicProductsGrid" class="public-products-grid"></div>
+    </section>
+  </main>
+
+  <footer class="store-footer">
+    <div class="store-container">
+      <img src="assets/logo-lc.png" alt="LC">
+      <p>Loja criada com LC Commerce.</p>
+    </div>
+  </footer>
+
+  <div id="publicBackdrop" class="modal-backdrop" hidden></div>
+
+  <aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
+    <div class="cart-drawer__head">
+      <div>
+        <p class="overline">Seu pedido</p>
+        <h3>Carrinho</h3>
+      </div>
+      <button id="closeCartBtn" class="icon-btn">✕</button>
+    </div>
+
+    <div class="cart-drawer__body">
+      <div id="publicCartItems"></div>
+      <div class="cart-total-row">
+        <span>Total</span>
+        <strong id="publicCartTotal">R$ 0,00</strong>
+      </div>
+
+      <div class="checkout-box">
+        <h4>Dados para entrega</h4>
+        <form id="checkoutForm" class="form-stack">
+          <label>
+            <span>Nome</span>
+            <input id="checkoutName" type="text" autocomplete="name" required>
+          </label>
+          <label>
+            <span>WhatsApp</span>
+            <input id="checkoutPhone" type="tel" autocomplete="tel" required>
+          </label>
+          <label>
+            <span>CEP</span>
+            <input id="checkoutCep" type="text" inputmode="numeric" autocomplete="postal-code" required>
+          </label>
+          <label>
+            <span>Endereço completo</span>
+            <textarea id="checkoutAddress" rows="3" autocomplete="street-address" required></textarea>
+          </label>
+
+          <div id="checkoutMessage" class="form-message" hidden></div>
+
+          <button class="btn btn-whatsapp btn-block" type="submit">Finalizar pelo WhatsApp</button>
+        </form>
+      </div>
+    </div>
+  </aside>
+
+  <div id="productDetailModal" class="modal-card public-product-modal" hidden>
+    <div class="modal-head">
+      <p class="overline">Detalhes</p>
+      <button id="closeDetailModal" class="icon-btn">✕</button>
+    </div>
+    <div id="publicProductDetail"></div>
+  </div>
+
+  <div id="publicToast" class="toast" hidden></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/store.js"></script>
+</body>
+</html>
